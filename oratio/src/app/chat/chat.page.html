@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Conversation avec Oratio
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-fab vertical="top" horizontal="start" slot="fixed">
+    <ion-button (click)="onSwitchMode()" *ngIf="isTextModeEnabled">
+      Mode voix
+    </ion-button>
+    <ion-button (click)="onSwitchMode()" *ngIf="!isTextModeEnabled">
+      Mode texte
+    </ion-button>
+  </ion-fab>
+  <div class="container">
+    <ion-list>
+      <ion-item-divider class="message-divider"></ion-item-divider>
+      <div class="message" *ngFor="let message of messageList">
+          <div class="user-message" class="ion-text-right" *ngIf="message.isFromUser">
+            <ion-card class="user-card">
+              <ion-card-content class="user-content" color="primary">
+                <span class="msg-name">Moi   </span>
+                <span class="msg-date">{{message.getDisplayedDate()}}</span>
+                <p class="ion-text-wrap" [innerHTML]="message.htmlContent"></p>
+              </ion-card-content>
+            </ion-card>
+          </div>
+          <div class="oratio-message" class="ion-text-left" *ngIf="!message.isFromUser">
+            <ion-card class="oratio-card">
+              <ion-card-content class="oratio-content">
+                <span class="msg-name">Oratio   </span>
+                <span class="msg-date">{{message.getDisplayedDate()}}</span>
+                <p class="ion-text-wrap" [innerHTML]="message.htmlContent"></p>
+              </ion-card-content>
+            </ion-card>
+          </div>
+          <ion-item-divider class="message-divider"></ion-item-divider>
+      </div>
+    </ion-list>
+  </div>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="!isTextModeEnabled">
+    <ion-fab-button (click)="onSpeak()">
+      <ion-icon name="mic"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-footer *ngIf="isTextModeEnabled">
+  <ion-toolbar>
+    <ion-item>
+      <ion-input [(ngModel)]="userInput" placeholder='Entrez votre texte'></ion-input>
+      <ion-button item-end disabled="{{!userInput}}" (click)="onSendClick()" fill="clear">
+        <ion-icon slot="icon-only" name="send"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>
