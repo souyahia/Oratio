@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 
+import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture/ngx';
+
 import { Message } from './message';
 
 const SCROLL_ANIMATION_DURATION: number = 500;
@@ -17,7 +19,7 @@ export class ChatPage implements OnInit, AfterViewInit {
   private _userInput: string = '';
   private _messageList: Message[] = []; 
 
-  constructor() { }
+  constructor(private mediaCapture: MediaCapture) { }
 
   ngOnInit() {
     this.messageList = Message.getMockList();
@@ -45,6 +47,12 @@ export class ChatPage implements OnInit, AfterViewInit {
 
   onSpeak():void {
     console.log('Speak button pressed.');
+    let options: CaptureImageOptions = { limit: 3 }
+    this.mediaCapture.captureImage(options)
+      .then(
+        (data: MediaFile[]) => console.log(data),
+        (err: CaptureError) => console.error(err)
+      );
   }
 
   get isTextModeEnabled(): boolean { return this._isTextModeEnabled; }
