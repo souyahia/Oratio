@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Checklist</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="checklist">
+    <ion-item button *ngFor="let item of checklist.items">
+      {{ item.object }}
+    </ion-item>
+  </ion-list>
+  <ion-card *ngIf="!checklist" class="red-card">
+    <ion-card-content>
+      Error : Unable to find the checklist "{{ NAME }}" of "{{ USER }}".
+    </ion-card-content>
+  </ion-card>
+</ion-content>

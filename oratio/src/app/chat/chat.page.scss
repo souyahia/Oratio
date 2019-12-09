@@ -42,3 +42,11 @@ ion-title{
     border: 0px !important;
     margin: 0px !important;
 }
+.mic-footbar {
+    --background: transparent;
+    --ion-color-base: transparent !important;
+}
+.mic-footbar-button {
+    margin-left: 8px;
+    margin-right: 8px;
+}
