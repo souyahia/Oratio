@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentReference } from '@angular/fire/firestore';
-import { map, take } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 export interface ChecklistItem {
@@ -11,7 +10,6 @@ export interface ChecklistItem {
 }
  
 export interface Checklist {
-  id?: string,
   user: string,
   name: string,
   items: ChecklistItem[]
