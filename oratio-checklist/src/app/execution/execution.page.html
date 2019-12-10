@@ -1,14 +1,37 @@
 <ion-header>
   <ion-toolbar>
+    <ion-button fill="clear" [routerLink]="'/home'" slot="start">
+      <ion-icon name="arrow-round-back" class="black-button"></ion-icon>
+    </ion-button>
     <ion-title>Checklist</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list *ngIf="checklist">
-    <ion-item button *ngFor="let item of checklist.items">
-      {{ item.object }}
-    </ion-item>
+    <div *ngFor="let item of checklist.items">
+      <ion-card [ngClass]="item.done ? 'item-done' : 'item-pending'">
+          <ion-card-content>
+            <ion-grid style="height: 100%">
+              <ion-row class="center-grid ion-justify-content-center ion-align-items-center" style="height: 100%">
+                <ion-checkbox class="checkbox" [(ngModel)]="item.done" (ionChange)="onClickCheckBox(item.id)"></ion-checkbox> 
+                <ion-col class="center-grid packed-block ion-justify-content-center ion-align-items-center" style="height: 100%">
+                  <ion-row class="center-grid packed-block ion-justify-content-center ion-align-items-center" style="height: 100%">
+                    <div class="verb">
+                      {{ item.verb }}
+                    </div>
+                  </ion-row>
+                  <ion-row class="center-grid packed-block ion-justify-content-center ion-align-items-center" style="height: 100%">
+                    <div class="object">
+                      {{ item.object }}
+                    </div>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+      </ion-card>
+    </div>
   </ion-list>
   <ion-card *ngIf="!checklist" class="red-card">
     <ion-card-content>

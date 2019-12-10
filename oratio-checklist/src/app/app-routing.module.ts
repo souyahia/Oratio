@@ -2,11 +2,14 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'execution/test/test', pathMatch: 'full' },
-  { path: 'execution', redirectTo: 'execution/test/test'},
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
-    path: 'execution/:username/:checklist',
+    path: 'execution/:user/:name',
     loadChildren: () => import('./execution/execution.module').then( m => m.ExecutionPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
 ];
 

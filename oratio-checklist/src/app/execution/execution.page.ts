@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 import { Checklist, ChecklistService } from 'src/app/services/checklist.service';
 
@@ -11,23 +12,25 @@ import { Checklist, ChecklistService } from 'src/app/services/checklist.service'
 })
 export class ExecutionPage implements OnInit {
 
-  public USER = 'anova';
-  public NAME = 'work';
-
+  private user: string;
+  private name: string;
   private userChecklists: Checklist[];
   private checklist: Checklist;
   private checklistsSubscription: Subscription;
  
-  constructor(private checklistService: ChecklistService) {
-  }
+  constructor(private route: ActivatedRoute, private checklistService: ChecklistService) {}
  
   ngOnInit() {
-    this.checklistsSubscription = this.checklistService.getChecklistsByUser(this.USER)
+    this.route.paramMap.subscribe(params => {
+      this.user = params.get('user');
+      this.name = params.get('name');
+    });
+    this.checklistsSubscription = this.checklistService.getChecklistsByUser(this.user)
     .subscribe(checklists => {
       this.userChecklists = checklists
       for (let checklist of this.userChecklists) {
-        if (checklist.name == this.NAME) {
-          this.checklist = checklist;
+        if (checklist.name == this.name) {
+          this.checklist = ChecklistService.sortChecklist(checklist);
           break;
         }
       }
@@ -36,6 +39,29 @@ export class ExecutionPage implements OnInit {
 
   ngOnDestroy() {
     this.checklistsSubscription.unsubscribe();
+  }
+
+  // ionViewWillEnter() {
+  //   this.checklistsSubscription = this.checklistService.getChecklistsByUser(this.USER)
+  //   .subscribe(checklists => {
+  //     this.userChecklists = checklists
+  //     for (let checklist of this.userChecklists) {
+  //       if (checklist.name == this.NAME) {
+  //         this.checklist = ChecklistService.sortChecklist(checklist);
+  //         break;
+  //       }
+  //     }
+  //   });
+  // }
+
+  // ionViewWillLeave() {
+  //   this.checklistsSubscription.unsubscribe();
+  //   this.checklist = null;
+  //   this.userChecklists = null;
+  // }
+
+  onClickCheckBox(id: number, checked: boolean) {
+    console.log(id + ': done=' + this.checklist.items[id].done);
   }
 
 }

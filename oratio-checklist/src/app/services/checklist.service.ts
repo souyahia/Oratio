@@ -28,4 +28,23 @@ export class ChecklistService {
       .valueChanges();
   }
 
+  static sortChecklist(checklist: Checklist): Checklist {
+    if (checklist == null) { return null; }
+    let sorted: Checklist = {
+      user: checklist.user,
+      name: checklist.name,
+      items: null
+    };
+
+    if (checklist.items == null) { return sorted; }
+    sorted.items = [];
+    if (checklist.items.length == 0) { return sorted; }
+
+    for (let id = 0; id<checklist.items.length; id++)
+      for (let item of checklist.items)
+        if (item.id == id) { sorted.items.push(item); }
+
+    return sorted;
+  }
+
 }

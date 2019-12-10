@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="pack ion-justify-content-center ion-align-items-center" style="height: 100%">
+    <ion-input class="test" [(ngModel)]="username" placeholder="username"></ion-input>
+    <ion-input class="test" [(ngModel)]="checklist" placeholder="checklist"></ion-input>
+    <ion-button color="primary" [disabled]="!username || !checklist" (click)="onClick()">
+        Execute Checklist
+    </ion-button>
+  </div>
+</ion-content>
