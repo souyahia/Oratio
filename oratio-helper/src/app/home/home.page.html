@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Accueil
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="loginService.isLoggedIn()">
+  <div class="ion-padding">
+    Bienvenue sur l'accueil monsieur {{ loginService.loggedUser.firstName }} {{ loginService.loggedUser.lastName }}!
+  </div>
+</ion-content>
+
+<ion-content *ngIf="!loginService.isLoggedIn()">
+  <ion-row class="content-row">
+    <ion-row>
+      <ion-col>
+        <div class="ion-padding">Il semblerait que vous n'êtes pas connecté. Veuillez vous connecter avant d'utiliser l'application.</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="login-row">
+        <ion-button shape="round" size="default" (click)="loginService.login()">
+          Se Connecter
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-row>
+</ion-content>

@@ -22,7 +22,7 @@ export class ChecklistService {
  
   constructor(private afs: AngularFirestore) {}
 
-  getChecklistsByUser(user: string): Observable<Checklist[]>{
+  getChecklistsByUser(user: string): Observable<Checklist[]> {
     return this.afs.collection<Checklist>('Checklists',
       ref => ref.where('user', '==', user))
       .valueChanges();

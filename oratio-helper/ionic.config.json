@@ -1,0 +1,7 @@
+{
+  "name": "oratio-helper",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
