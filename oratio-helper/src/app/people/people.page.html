@@ -1,9 +1,21 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>people</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Mes Personnes
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <div class="ion-padding" *ngIf="supervision.length == 0">
+    Vous n'êtes actuellement l'aidant d'aucune personne.
+  </div>
+  <ion-list *ngIf="supervision.length > 0">
+    <ion-item *ngFor="let person of supervision" (click)="onClick()">
+      {{ person }}
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -17,6 +17,7 @@ import { environment } from '../environments/environment';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,7 +36,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     LoginService,
     { provide: FirestoreSettingsToken, useValue: {} },
-    InAppBrowser
+    InAppBrowser,
+    NativeStorage
   ],
   bootstrap: [AppComponent]
 })

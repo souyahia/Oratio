@@ -72,4 +72,38 @@ app.post('/addUser', (request: any, response: any) => {
   });
 });
 
+app.post('/updateUser', (request: any, response: any) => {
+  response.set('Access-Control-Allow-Origin', '*');
+  response.set('Access-Control-Allow-Methods', 'GET, POST');
+  const userInfo: any = {
+    access_token: request.body.access_token,
+    gmail: request.body.gmail,
+    username: request.body.username,
+    firstName: request.body.firstName,
+    lastName: request.body.lastName,
+    cellphone: request.body.cellphone,
+    birth: request.body.birth,
+    isHelper: request.body.isHelper
+  };
+  if (request.body.password !== undefined) { userInfo.password = request.body.password; }
+  if (request.body.supervision !== undefined) { userInfo.supervision = request.body.supervision; }
+  if (request.body.helper !== undefined) { userInfo.helper = request.body.helper; }
+
+  const usersRef = db.collection('Users');
+  usersRef.get()
+  .then((docSnapshot: any) => {
+      docSnapshot.forEach((doc: any) => {
+        const data = doc.data();
+        if (data.gmail === userInfo.gmail) {
+          usersRef.doc(doc.id).update(userInfo);
+          response.status(200).send({
+            success: true,
+            document: userInfo
+          });
+          return;
+        }
+      });     
+  });
+});
+
 exports.API = functions.https.onRequest(app);

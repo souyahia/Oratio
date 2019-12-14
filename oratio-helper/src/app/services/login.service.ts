@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CloudFunctionsService } from './cloud-functions.service';
 import { UserInfo, UserService } from './user.service';
 import { googleId } from '../../../../apikeys/googleId';
+import { StorageService, KEYS } from './storage.service';
 
 export interface NewUserInfo {
   gmail: string,
@@ -31,7 +32,8 @@ export class LoginService {
     private platform: Platform,
     private cloudFunctions: CloudFunctionsService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private storageService: StorageService
   ) {
     this.loggedUser = null;
     this.newUser = null;
@@ -42,9 +44,19 @@ export class LoginService {
   public isLoggedIn() { return this.loggedUser != null; }
 
   public logout(): void {
-    this.router.navigateByUrl('/home');
-    this.loggedUser = null;
-    this.newUser = null;
+    this.storageService.removeItem(KEYS.LAST_USER_LOGGED)
+      .then(resolve => {
+        this.router.navigateByUrl('/home');
+        this.loggedUser = null;
+        this.newUser = null;
+      }, reject => {
+        console.error('Unknown native storage error :');
+        console.error(reject);
+        this.router.navigateByUrl('/home');
+        this.loggedUser = null;
+        this.newUser = null;
+      }
+    );
   }
 
   public logNewUser(userInfo: UserInfo) {
@@ -55,13 +67,14 @@ export class LoginService {
     });
   }
 
-  private loginAs(gmail: string) {
+  public loginAs(gmail: string) {
     this.userService.getUserByGmail(gmail)
     .subscribe((users) => {
       if (users.length === 0) { this.logout(); }
       else {
         this.newUser = null;
         this.loggedUser = users[0];
+        this.storageService.setItem(KEYS.LAST_USER_LOGGED, this.loggedUser);
         this.router.navigateByUrl('/home');
       }
     });
@@ -77,7 +90,6 @@ export class LoginService {
         const gmail = data.email;
         this.cloudFunctions.checkHelper(gmail)
         .subscribe((response) => {
-          console.log(response);
           if (response.error !== undefined) {
             console.error(response.error);
             return { error: response.error };

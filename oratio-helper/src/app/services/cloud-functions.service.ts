@@ -22,4 +22,8 @@ export class CloudFunctionsService {
     return this.http.post(FIREBASE_API_URL + '/addUser', user);
   }
 
+  public updateUser(user: UserInfo): Observable<any> {
+    return this.http.post(FIREBASE_API_URL + '/updateUser', user);
+  }
+
 }

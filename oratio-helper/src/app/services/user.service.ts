@@ -30,4 +30,10 @@ export class UserService {
       .valueChanges();
   }
 
+  getUserByUsername(username: string): Observable<UserInfo[]> {
+    return this.afs.collection<UserInfo>('Users',
+      ref => ref.where('username', '==', username))
+      .valueChanges();
+  }
+
 }
