@@ -1,5 +1,7 @@
 {
   "name": "oratio-checklist",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

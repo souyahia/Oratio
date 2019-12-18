@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Inscription à Oratio-Helper
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!errorOnLoad">
+  <ion-list>
+    <div class="ion-padding">Veuillez compléter les champs ci-dessous afin de vous inscrire sur Oratio-Helper.</div>
+    <ion-item-divider></ion-item-divider>
+    <ion-item>
+      <div class="input-legend" slot="start">Email :</div>
+      <ion-input class="input-line input-disabled" [(ngModel)]="userInfo.gmail" readonly="true"></ion-input>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <ion-item>
+      <div class="input-legend" slot="start">Prénom :</div>
+      <ion-input class="input-line" [(ngModel)]="userInfo.firstName" placeholder="Prénom"></ion-input>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <ion-item>
+      <div class="input-legend" slot="start">Nom de famille :</div>
+      <ion-input class="input-line" [(ngModel)]="userInfo.lastName" placeholder="Nom de famille"></ion-input>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <ion-item>
+      <div class="input-legend" slot="start">Téléphone :</div>
+      <ion-input class="input-line" [(ngModel)]="userInfo.cellphone" placeholder="N° de Téléphone"></ion-input>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <ion-item>
+      <div class="input-legend" slot="start">Date de naissance :</div>
+      <ion-input class="input-line" [(ngModel)]="userInfo.birth" placeholder="JJ/MM/AAAA"></ion-input>
+    </ion-item>
+    <div *ngIf="!isValidUser()">
+      <ion-item-divider></ion-item-divider>
+      <div class="ion-padding error-message">Un ou plusieurs champs ne sont pas valides.</div>
+    </div>
+    <ion-item-divider></ion-item-divider>
+    <ion-row class="content-row">
+      <ion-button shape="round" size="default" (click)="onClickSend()" [disabled]="!isValidUser()">
+        Valider
+      </ion-button>
+      <ion-button shape="round" color="danger" (click)="onClickCancel()">
+        Annuler
+      </ion-button>
+    </ion-row>
+  </ion-list>
+</ion-content>
+
+<ion-content *ngIf="errorOnLoad">
+  <ion-row class="content-row">
+    <ion-row>
+      <ion-col>
+        <div class="ion-padding">Une erreur inattendue est survenue. Veuillez appuyer sur le bouton ci-dessous pour revenir à l'accueil.</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="login-row">
+        <ion-button shape="round" size="default" (click)="loginService.logout()" routerLink="/home">
+          Retour à l'Accueil
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-row>
+</ion-content>
