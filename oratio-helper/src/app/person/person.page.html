@@ -1,0 +1,43 @@
+<div *ngIf="person">
+  <ion-header>
+    <ion-toolbar>
+      <ion-button fill="clear" slot="start" routerLink="/people">
+        <ion-icon class="black-icon" name="arrow-round-back"></ion-icon>
+      </ion-button>
+      <ion-title>{{ person.firstName }} {{ person.lastName }}</ion-title>
+      <ion-button fill="clear" slot="end" [routerLink]="['/person-settings', person.username]">
+        <ion-icon class="black-icon" name="settings"></ion-icon>
+      </ion-button>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <div class="ion-padding">
+      Page de monitoring de {{ person.firstName }} {{ person.lastName }}.
+    </div>
+  </ion-content>
+</div>
+
+<div *ngIf="!person">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Chargement en cours</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <ion-row class="content-row">
+      <ion-row>
+        <ion-col>
+          <div class="ion-padding">Veuillez patienter quelques instants...</div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="login-row">
+          <ion-spinner name="crescent" color="primary"></ion-spinner>
+        </ion-col>
+      </ion-row>
+    </ion-row>
+  </ion-content>
+</div>
+

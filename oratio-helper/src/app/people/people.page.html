@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header *ngIf="!isLoading">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -7,15 +7,54 @@
       Mes Personnes
     </ion-title>
   </ion-toolbar>
+  <ion-item>
+    <ion-input [(ngModel)]="userInput" (keyup) ="onSearch($event)" placeholder='Rechercher une personne'></ion-input>
+    <ion-button disabled="{{!userInput}}" (click)="onSearch(null)" slot="end" fill="clear">
+        <ion-icon name="search"></ion-icon>
+    </ion-button>
+  </ion-item>
 </ion-header>
 
-<ion-content>
-  <div class="ion-padding" *ngIf="supervision.length == 0">
+<ion-header *ngIf="isLoading">
+  <ion-toolbar>
+    <ion-title>Chargement en cours</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!isLoading">
+  <div class="ion-padding" *ngIf="people.length == 0">
     Vous n'êtes actuellement l'aidant d'aucune personne.
   </div>
-  <ion-list *ngIf="supervision.length > 0">
-    <ion-item *ngFor="let person of supervision" (click)="onClick()">
-      {{ person }}
-    </ion-item>
+  <div class="ion-padding" *ngIf="resultPeople.length == 0 && people.length > 0">
+    Aucune personne ne correspond à votre recherche.
+  </div>
+  <ion-list *ngIf="resultPeople.length > 0">
+    <div *ngFor="let user of resultPeople">
+      <ion-card (click)="onClickPerson(user)" [ngClass]="isNewPerson(user) ? 'new-person' : 'person'">
+        <ion-card-header>
+          <ion-icon name="information-circle" *ngIf="isNewPerson(user)" class="new-notif"></ion-icon>
+          <ion-card-title>{{ user.firstName }} {{ user.lastName }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{ this.userService.getAge(user) }} ans<br>
+          {{ user.gmail }}
+        </ion-card-content>
+      </ion-card>
+    </div>
   </ion-list>
+</ion-content>
+
+<ion-content *ngIf="isLoading">
+  <ion-row class="content-row">
+    <ion-row>
+      <ion-col>
+        <div class="ion-padding">Veuillez patienter quelques instants...</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-row>
 </ion-content>

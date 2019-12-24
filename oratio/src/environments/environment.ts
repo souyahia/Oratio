@@ -6,7 +6,7 @@ import { firebase } from '../../../apikeys/firebaseApiKey';
 
 export const environment = {
   production: false,
-  firebase: firebase
+  firebase
 };
 
 /*

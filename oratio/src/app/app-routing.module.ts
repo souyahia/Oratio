@@ -11,9 +11,18 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
-  { path: 'chat', loadChildren: './chat/chat.module#ChatPageModule' },
-  { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule' }
+  {
+    path: 'loading',
+    loadChildren: () => import('./loading/loading.module').then( m => m.LoadingPageModule)
+  },
+  {
+    path: 'sign-in',
+    loadChildren: () => import('./sign-in/sign-in.module').then( m => m.SignInPageModule)
+  },
+  {
+    path: 'search-helper',
+    loadChildren: () => import('./search-helper/search-helper.module').then( m => m.SearchHelperPageModule)
+  }
 ];
 
 @NgModule({

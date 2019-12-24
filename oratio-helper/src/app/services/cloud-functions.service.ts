@@ -14,8 +14,8 @@ export class CloudFunctionsService {
 
   constructor(private http: HttpClient) { }
 
-  public checkHelper(gmail: string): Observable<any> {
-    return this.http.post(FIREBASE_API_URL + '/checkHelper', { gmail: gmail });
+  public checkUser(gmail: string): Observable<any> {
+    return this.http.post(FIREBASE_API_URL + '/checkUser', { gmail: gmail });
   }
 
   public addUser(user: UserInfo): Observable<any> {
@@ -24,6 +24,10 @@ export class CloudFunctionsService {
 
   public updateUser(user: UserInfo): Observable<any> {
     return this.http.post(FIREBASE_API_URL + '/updateUser', user);
+  }
+
+  public removeUser(gmail: string): Observable<any> {
+    return this.http.post(FIREBASE_API_URL + '/removeUser', { gmail: gmail });
   }
 
 }

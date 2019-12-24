@@ -1,21 +1,25 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { map, take } from 'rxjs/operators';
+
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
+export interface Supervision {
+  new: boolean,
+  username: string
+}
+
 export interface UserInfo {
-  id?: string,
-  cellphone: string,
-  birth: string,
-  firstname: string,
-  lastname: string,
+  access_token: string,
   gmail: string,
   username: string,
-  password?: string,
+  firstName: string,
+  lastName: string,
+  cellphone: string,
+  birth: string,
   isHelper: boolean,
-  supervision?: string[],
-  helper?: string,
-  access_token: string
+  password?: string,
+  supervision?: Supervision[],
+  helper?: string
 }
 
 @Injectable({
@@ -23,45 +27,64 @@ export interface UserInfo {
 })
 export class UserService {
 
-  private users: Observable<UserInfo[]>;
-  private userCollection: AngularFirestoreCollection<UserInfo>;
+  constructor(private afs: AngularFirestore) { }
 
-  constructor(private afs: AngularFirestore) {
-    this.userCollection = this.afs.collection<UserInfo>('Users');
-    this.users = this.userCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
-      })
-    );
+  getHelpers(): Observable<UserInfo[]> {
+    return this.afs.collection<UserInfo>('Users',
+      ref => ref.where('isHelper', '==', true))
+      .valueChanges();
   }
 
-  getUsers(): Observable<UserInfo[]> {
-    return this.users;
-  }
- 
-  getUserByDocumentId(id: string): Observable<UserInfo> {
-    return this.userCollection.doc<UserInfo>(id).valueChanges().pipe(
-      take(1),
-      map(idea => {
-        idea.id = id;
-        return idea
-      })
-    );
+  getUserByGmail(gmail: string): Observable<UserInfo[]> {
+    return this.afs.collection<UserInfo>('Users',
+      ref => ref.where('gmail', '==', gmail))
+      .valueChanges();
   }
 
-  queryByUsername(username: string): Observable<UserInfo[]> {
+  getUserByUsername(username: string): Observable<UserInfo[]> {
     return this.afs.collection<UserInfo>('Users',
       ref => ref.where('username', '==', username))
       .valueChanges();
   }
 
-  queryByGmail(gmail: string): Observable<UserInfo[]> {
-    return this.afs.collection<UserInfo>('Users',
-      ref => ref.where('gmail', '==', gmail))
-      .valueChanges();
+  getAge(user: UserInfo): number {
+    const reg = new RegExp('^([\\d]{2})/([\\d]{2})/([\\d]{4})$', 'i');
+    const result = user.birth.match(reg);
+    if (result === null || result === undefined) { throw new Error('UserService.getAge : Bad user birth string.') }
+    const userDay: number = Number(result[1]);
+    const userMonth: number = Number(result[2]);
+    const userYear: number = Number(result[3]);
+    const today = new Date();
+    const todayDay = today.getDate();
+    const todayMonth = today.getMonth() + 1;
+    const todayYear = today.getFullYear();
+    let age: number = todayYear - userYear;
+    if (todayMonth < userMonth) { age--; }
+    else if (todayMonth === userMonth && todayDay < userDay) { age--; }
+    return age;
   }
+
+  sortUsersByName(users: UserInfo[]): UserInfo[] {
+    if (users.length === 0) { return []; }
+    let sortedUsers: UserInfo[] = [];
+    for (let user of users) {
+      if (sortedUsers.length === 0) { sortedUsers.push(user); }
+      else {
+        let index: number = 0;
+        while (index < sortedUsers.length && this.compareUserNames(user, sortedUsers[index])) { index++; }
+        if (index === sortedUsers.length) { sortedUsers.push(user); }
+        else { sortedUsers.splice(index, 0, user); }
+      }
+    }
+    return sortedUsers;
+  }
+
+  compareUserNames(user1: UserInfo, user2: UserInfo): boolean {
+    if (user1.firstName > user2.firstName) { return true; }
+    if (user1.firstName < user2.firstName) { return false; }
+    if (user1.lastName > user2.lastName) { return true; }
+    if (user1.lastName < user2.lastName) { return false; }
+    return true;
+  }
+
 }
