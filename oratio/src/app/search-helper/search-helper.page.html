@@ -1,0 +1,54 @@
+<ion-header *ngIf="!isLoading">
+  <ion-toolbar>
+    <ion-title>Trouvez votre aidant</ion-title>
+    <ion-button slot="end" color="danger" (click)="onClickCancel()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+  <ion-item>
+    <ion-input [(ngModel)]="userInput" (keyup) ="onSearch($event)" placeholder='Rechercher un aidant'></ion-input>
+    <ion-button disabled="{{!userInput}}" (click)="onSearch(null)" slot="end" fill="clear">
+        <ion-icon name="search"></ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-header>
+
+<ion-header *ngIf="isLoading">
+  <ion-toolbar>
+    <ion-title>Chargement en cours</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!isLoading">
+  <ion-list>
+    <div class="ion-padding" *ngIf="resultHelpers.length == 0">
+      Aucun aidant ne correspond à votre recherche.
+    </div>
+    <div *ngFor="let user of resultHelpers">
+      <ion-card (click)=onClickHelper(user)>
+        <ion-card-header>
+          <ion-card-title>{{ user.firstName }} {{ user.lastName }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{ this.userService.getAge(user) }} ans<br>
+          {{ user.gmail }}
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-list>
+</ion-content>
+
+<ion-content *ngIf="isLoading">
+  <ion-row class="content-row">
+    <ion-row>
+      <ion-col>
+        <div class="ion-padding">Veuillez patienter quelques instants...</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="login-row">
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-row>
+</ion-content>

@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Inscription à Oratio
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!errorOnLoad">
+  <ion-list>
+    <div class="ion-padding">Veuillez compléter les champs ci-dessous afin de vous inscrire sur Oratio.</div>
+    <ion-item-divider></ion-item-divider>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input class="input-line input-disabled" [(ngModel)]="userInfo.gmail" readonly="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Prénom</ion-label>
+      <ion-input class="input-line" [(ngModel)]="userInfo.firstName" placeholder="Prénom"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Nom de famille</ion-label>
+      <ion-input class="input-line" [(ngModel)]="userInfo.lastName" placeholder="Nom de famille"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Téléphone</ion-label>
+      <ion-input class="input-line" type="number" [(ngModel)]="userInfo.cellphone" placeholder="N° de Téléphone"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Date de naissance</ion-label>
+      <ion-datetime 
+        display-format="DD/MM/YYYY"
+        [max]="maxDate"
+        [(ngModel)]="userBirth"
+        cancelText="Annuler"
+        doneText="OK"
+        placeholder="Sélectionner"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Mot de passe</ion-label>
+      <ion-input type="password" class="input-line" [(ngModel)]="userInfo.password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Confirmation du mot de passe</ion-label>
+      <ion-input type="password" class="input-line" [(ngModel)]="passwordConfirmation"></ion-input>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <ion-row class="content-row">
+      <ion-button shape="round" color="danger" (click)="onClickCancel()">
+        Annuler
+      </ion-button>
+      <ion-button shape="round" size="default" (click)="onClickSend()" [disabled]="!isValidUser()">
+        Suivant
+      </ion-button>
+    </ion-row>
+  </ion-list>
+</ion-content>
+
+<ion-content *ngIf="errorOnLoad">
+  <ion-row class="content-row">
+    <ion-row>
+      <ion-col>
+        <div class="ion-padding">Une erreur inattendue est survenue. Veuillez appuyer sur le bouton ci-dessous pour revenir à l'accueil.</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="login-row">
+        <ion-button shape="round" size="default" (click)="loginService.logout()" routerLink="/home">
+          Retour à l'Accueil
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-row>
+</ion-content>

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 export const KEYS = Object.freeze({
-  LAST_USER_LOGGED: 'LAST_USER'
+  LAST_USER_LOGGED: 'ORATIO_HELPER_LAST_USER'
 });
 
 @Injectable({

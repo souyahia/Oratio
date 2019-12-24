@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
+import { StorageService, KEYS } from './services/storage.service';
 import { LoginService } from './services/login.service';
 
 @Component({
@@ -14,19 +14,9 @@ import { LoginService } from './services/login.service';
 export class AppComponent {
   public appPages = [
     {
-      title: 'Accueil',
+      title: 'Home',
       url: '/home',
       icon: 'home'
-    },
-    {
-      title: 'Assistant',
-      url: '/chat',
-      icon: 'chatboxes'
-    },
-    {
-      title: 'Paramètres',
-      url: '/settings',
-      icon: 'settings'
     }
   ];
 
@@ -34,6 +24,7 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
+    private storageService: StorageService,
     private loginService: LoginService
   ) {
     this.initializeApp();
@@ -43,10 +34,15 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.storageService.getItem(KEYS.LAST_USER_LOGGED)
+      .then((resolve) => {
+        if (resolve !== undefined && resolve.gmail != undefined) { this.loginService.loginAs(resolve.gmail); }
+      }, (reject) => {
+        if (reject.code !== 2) {
+          console.error('Unknown native storage error :');
+          console.error(reject);
+        }
+      });
     });
-  }
-
-  isUserLoggedIn() {
-    return ( this.loginService.currentUser != null );
   }
 }

@@ -26,6 +26,14 @@ const routes: Routes = [
   {
     path: 'loading',
     loadChildren: () => import('./loading/loading.module').then( m => m.LoadingPageModule)
+  },
+  {
+    path: 'person/:username',
+    loadChildren: () => import('./person/person.module').then( m => m.PersonPageModule)
+  },
+  {
+    path: 'person-settings/:username',
+    loadChildren: () => import('./person-settings/person-settings.module').then( m => m.PersonSettingsPageModule)
   }
 ];
 

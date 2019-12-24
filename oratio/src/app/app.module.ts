@@ -6,41 +6,42 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+
+import { LoginService } from './services/login.service';
+import { SharedDataService } from './services/shared-data.service';
+
+import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 
-import { MediaCapture } from '@ionic-native/media-capture/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { ComponentsModule } from './components/components.module';
-
-import { LoginService } from './services/login.service';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  entryComponents: [
-  ],
+  declarations: [AppComponent],
+  entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    ComponentsModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule],
+    AngularFirestoreModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,
-    MediaCapture,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    LoginService,
     { provide: FirestoreSettingsToken, useValue: {} },
-    LoginService
+    InAppBrowser,
+    NativeStorage,
+    SharedDataService
   ],
-  bootstrap: [
-    AppComponent
-  ]
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

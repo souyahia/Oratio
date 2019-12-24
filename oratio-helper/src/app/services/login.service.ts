@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -33,7 +33,8 @@ export class LoginService {
     private cloudFunctions: CloudFunctionsService,
     private userService: UserService,
     private router: Router,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private alertController: AlertController
   ) {
     this.loggedUser = null;
     this.newUser = null;
@@ -80,6 +81,21 @@ export class LoginService {
     });
   }
 
+  async badUserPopUp() {
+    const alert = await this.alertController.create({
+      header: 'Connexion échouée',
+      message: 'Ce compte n\'appartient pas à un aidant. Veuillez utiliser Oratio pour utiliser des comptes d\'utilisateurs normaux.',
+      buttons: [
+        {
+          text: 'Retour à l\'Accueil',
+          handler: () => { this.logout(); }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   public login(): void {
     this.platform.ready()
     .then(this.googleLogin)
@@ -88,13 +104,14 @@ export class LoginService {
       .subscribe((data: any) => {
         this.router.navigateByUrl('/loading');
         const gmail = data.email;
-        this.cloudFunctions.checkHelper(gmail)
+        this.cloudFunctions.checkUser(gmail)
         .subscribe((response) => {
           if (response.error !== undefined) {
             console.error(response.error);
             return { error: response.error };
           } else if (response.exists) {
-            this.loginAs(gmail);
+            if (!response.info.isHelper) { this.badUserPopUp(); }
+            else { this.loginAs(gmail); }
           } else {
             this.newUser = {
               gmail: gmail,

@@ -11,36 +11,34 @@
 
 <ion-content>
   <ion-list>
-    <div class="ion-padding">Vous pouvez éditer les champs ci-dessous afin de modifier votre profil.</div>
+    <div class="ion-padding">Veuillez compléter les champs ci-dessous afin de vous inscrire sur Oratio-Helper.</div>
     <ion-item-divider></ion-item-divider>
     <ion-item>
-      <div class="input-legend" slot="start">Email :</div>
+      <ion-label position="floating">Email</ion-label>
       <ion-input class="input-line input-disabled" [(ngModel)]="userInfo.gmail" readonly="true"></ion-input>
     </ion-item>
-    <ion-item-divider></ion-item-divider>
     <ion-item>
-      <div class="input-legend" slot="start">Prénom :</div>
+      <ion-label position="floating">Prénom</ion-label>
       <ion-input class="input-line" [(ngModel)]="userInfo.firstName" placeholder="Prénom"></ion-input>
     </ion-item>
-    <ion-item-divider></ion-item-divider>
     <ion-item>
-      <div class="input-legend" slot="start">Nom de famille :</div>
+      <ion-label position="floating">Nom de famille</ion-label>
       <ion-input class="input-line" [(ngModel)]="userInfo.lastName" placeholder="Nom de famille"></ion-input>
     </ion-item>
-    <ion-item-divider></ion-item-divider>
     <ion-item>
-      <div class="input-legend" slot="start">Téléphone :</div>
-      <ion-input class="input-line" [(ngModel)]="userInfo.cellphone" placeholder="N° de Téléphone"></ion-input>
+      <ion-label position="floating">Téléphone</ion-label>
+      <ion-input class="input-line" type="number" [(ngModel)]="userInfo.cellphone" placeholder="N° de Téléphone"></ion-input>
     </ion-item>
-    <ion-item-divider></ion-item-divider>
     <ion-item>
-      <div class="input-legend" slot="start">Date de naissance :</div>
-      <ion-input class="input-line" [(ngModel)]="userInfo.birth" placeholder="JJ/MM/AAAA"></ion-input>
+      <ion-label>Date de naissance</ion-label>
+      <ion-datetime 
+        display-format="DD/MM/YYYY"
+        [max]="maxDate"
+        [(ngModel)]="userBirth"
+        cancelText="Annuler"
+        doneText="OK"
+        placeholder="Sélectionner"></ion-datetime>
     </ion-item>
-    <div *ngIf="!isValidUser()">
-      <ion-item-divider></ion-item-divider>
-      <div class="ion-padding error-message">Un ou plusieurs champs ne sont pas valides.</div>
-    </div>
     <ion-item-divider></ion-item-divider>
     <ion-row class="content-row">
       <ion-button shape="round" size="default" (click)="onClickSend()" [disabled]="!isValidUser()">
