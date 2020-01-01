@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Work Module
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-row *ngFor="let message of messages | async">
+    <ion-col size="9" *ngIf="message.sentBy === 'bot'" class="message other-message">
+    {{ message.content }}
+  </ion-col>
+
+  <ion-col offset="3" size="9" *ngIf="message.sentBy === 'user'" class="message my-message">
+    {{ message.content }}
+  </ion-col>
+  </ion-row>
+ </ion-content>
+
+ <ion-footer>
+   <ion-toolbar color="light">
+      <ion-row align-items-center no-padding>
+        <ion-col size="10">
+          <input [(ngModel)]="formValue" (keyup.enter)="sendMessage()" type="text" class="msg-input">
+        </ion-col>
+        <ion-col size="2">
+          <button 
+            expand="block"
+            fill="clear"
+            color="primary"
+            class="msg-button"
+            (click)="sendMessage()">
+            <ion-icon name="ios-send" ></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+   </ion-toolbar>
+ </ion-footer>
+ 
