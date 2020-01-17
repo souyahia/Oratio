@@ -32,7 +32,7 @@ export class PeoplePage implements OnInit {
 
   ngOnInit() { this.updateState(); }
   ionViewWillEnter() { this.updateState(); }
-  ngOnDestroy() { this.afsSubscription.unsubscribe(); }
+  ngOnDestroy() { if (this.afsSubscription) { this.afsSubscription.unsubscribe(); } }
 
   updateState() {
     this.isLoading = true;

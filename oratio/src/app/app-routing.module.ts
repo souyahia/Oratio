@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'search-helper',
     loadChildren: () => import('./search-helper/search-helper.module').then( m => m.SearchHelperPageModule)
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
   }
 ];
 

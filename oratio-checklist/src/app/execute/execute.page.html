@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button
+      slot="start"
+      class="black-button"
+      fill="clear"
+      routerLink="/home">
+      <ion-icon name="arrow-round-back"></ion-icon>
+    </ion-button>
+    <ion-title>Execute Checklist</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding center-content">
+    <ion-text>
+      Username : {{ username }}<br>
+      Checklist: {{ checklist }}
+    </ion-text>
+  </div>
+</ion-content>

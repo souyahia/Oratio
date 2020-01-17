@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ExecutionPageRoutingModule } from './execution-routing.module';
+import { ExecutePageRoutingModule } from './execute-routing.module';
 
-import { ExecutionPage } from './execution.page';
+import { ExecutePage } from './execute.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ExecutionPageRoutingModule
+    ExecutePageRoutingModule
   ],
-  declarations: [ExecutionPage]
+  declarations: [ExecutePage]
 })
-export class ExecutionPageModule {}
+export class ExecutePageModule {}

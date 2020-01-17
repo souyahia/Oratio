@@ -41,7 +41,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <allow-navigation href="http://localhost:8100" sessionid="a2dfabf8" />
+    <allow-navigation href="http://localhost:8100" sessionid="5a5960b2" />
     <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
         <application android:networkSecurityConfig="@xml/network_security_config" />
     </edit-config>

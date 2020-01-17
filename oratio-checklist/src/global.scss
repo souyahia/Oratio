@@ -24,3 +24,23 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.center-content {
+  text-align: center;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.black-button {
+  --background-activated: rgba(0, 0, 0, 0);
+}
+.black-button > ion-icon {
+  color: var(--ion-color-dark);
+  --color: var(--ion-color-dark);
+}

@@ -10,8 +10,15 @@
 </ion-header>
 
 <ion-content>
+  <div class="ion-padding">
+    <ion-row class="content-row">
+      <ion-button (click)="onClickDeleteAccount()" color="danger" shape="round" size="default">
+        Supprimer le Compte
+      </ion-button>
+    </ion-row>
+  </div>
   <ion-list>
-    <div class="ion-padding">Veuillez compléter les champs ci-dessous afin de vous inscrire sur Oratio-Helper.</div>
+    <div class="ion-padding">Vous pouez modifier les champs ci-dessous.</div>
     <ion-item-divider></ion-item-divider>
     <ion-item>
       <ion-label position="floating">Email</ion-label>

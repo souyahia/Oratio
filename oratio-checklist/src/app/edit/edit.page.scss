@@ -1,0 +1,54 @@
+.full-height {
+  height: 100%;
+}
+.item-grid {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding: 0px;
+  height: 100%;
+}
+.item-grid > ion-row {
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.item-grid > ion-row > ion-col {
+  margin: 0px;
+  padding: 0px;
+}
+.up-down-grid {
+  margin: 0px;
+  padding: 0px;
+}
+.up-down-grid > ion-row {
+  margin: 0px;
+  padding: 0px;
+}
+.up-down-grid > ion-row > ion-col {
+  margin: 0px;
+  padding: 0px;
+}
+.remove-button > ion-icon {
+  color: var(--ion-color-danger);
+  --color: var(--ion-color-danger);
+}
+.verb-selector {
+  width: 100%;
+  color: var(--ion-color-dark);
+}
+.object-input {
+  width: 100%;
+  border: solid var(--ion-color-medium) 1px;
+  color: var(--ion-color-dark);
+  text-align: left;
+}
+.object-input-invalid {
+  width: 100%;
+  border: solid var(--ion-color-danger) 1px;
+  color: var(--ion-color-danger);
+  text-align: left;
+}
