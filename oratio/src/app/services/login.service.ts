@@ -42,6 +42,40 @@ export class LoginService {
     this.newUser = null;
   }
 
+  public deleteUserAccount() {
+    const currentUser: UserInfo = this.loggedUser;
+    this.router.navigateByUrl('/loading');
+    this.storageService.removeItem(KEYS.LAST_USER_LOGGED)
+    .then(resolve => {
+      this.loggedUser = null;
+      this.newUser = null;
+      this.userService.getUserByUsername(currentUser.helper)
+      .pipe(first()).subscribe((helpersInfo: UserInfo[]) => {
+        const newHelperInfo: UserInfo = {
+          access_token: helpersInfo[0].access_token,
+          gmail: helpersInfo[0].gmail,
+          username: helpersInfo[0].username,
+          firstName: helpersInfo[0].firstName,
+          lastName: helpersInfo[0].lastName,
+          cellphone: helpersInfo[0].cellphone,
+          birth: helpersInfo[0].birth,
+          isHelper: helpersInfo[0].isHelper,
+          supervision: []
+        };
+        for (let item of helpersInfo[0].supervision) {
+          if (item.username !== currentUser.username) { newHelperInfo.supervision.push(item); }
+        }
+        this.cloudFunctions.updateUser(newHelperInfo)
+        .pipe(first()).subscribe((response: any) => {
+          this.cloudFunctions.deleteUser(currentUser.gmail)
+          .pipe(first()).subscribe((response: any) => {
+            this.router.navigateByUrl('/home');
+          });
+        });
+      });
+    });
+  }
+
   public isNewUser() { return this.newUser != null; }
 
   public isLoggedIn() { return this.loggedUser != null; }

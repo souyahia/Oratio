@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserInfo } from '../services/user.service';
 import { LoginService } from '../services/login.service';
 import { CloudFunctionsService } from '../services/cloud-functions.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-settings',
@@ -20,7 +21,8 @@ export class SettingsPage implements OnInit {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private cloudFunctions: CloudFunctionsService
+    private cloudFunctions: CloudFunctionsService,
+    private alertController: AlertController
   ) {
     this.userBirth = '';
   }
@@ -31,6 +33,26 @@ export class SettingsPage implements OnInit {
   updateState() {
     if (!this.loginService.isLoggedIn()) { this.router.navigateByUrl('/home'); }
     this.userInfo = this.loginService.loggedUser;
+  }
+
+  async onClickDeleteAccount() {
+    const alert = await this.alertController.create({
+      header: 'Confirmation',
+      message: 'Êtes-vous sûr(e) de vouloir supprimer définitivement votre compte ?',
+      buttons: [
+        {
+          text: 'Annuler',
+          cssClass: 'primary',
+          handler: () => {}
+        }, {
+          text: 'Oui',
+          cssClass: 'danger',
+          handler: () => { this.loginService.deleteUserAccount(); }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   onClickSend() {

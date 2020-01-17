@@ -14,9 +14,14 @@ import { LoginService } from './services/login.service';
 export class AppComponent {
   public appPages = [
     {
-      title: 'Home',
+      title: 'Accueil',
       url: '/home',
       icon: 'home'
+    },
+    {
+      title: 'Paramètres',
+      url: '/settings',
+      icon: 'settings'
     }
   ];
 

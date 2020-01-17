@@ -176,4 +176,36 @@ app.post('/removeUser', (request: any, response: any) => {
   });
 });
 
+app.post('/removeUserByUsername', (request: any, response: any) => {
+  response.set('Access-Control-Allow-Origin', '*');
+  response.set('Access-Control-Allow-Methods', 'GET, POST');
+  const username: string = request.body.username;
+  console.log(`< /removeUserByUsername > Received request for ${username}.`);
+  const usersRef = db.collection('Users');
+  usersRef.get()
+  .then((docSnapshot: any) => {
+    let done: boolean = false;
+    docSnapshot.forEach((doc: any) => {
+      const data = doc.data();
+      if (data.username === username) {
+        usersRef.doc(doc.id).delete();
+        response.status(200).send({
+          success: true,
+          message: 'User successfully removed.'
+        });
+        done = true;
+        console.log(`< /removeUserByUsername > ${username} deleted.`);
+        return;
+      }
+    });
+    if (!done) {
+      response.status(200).send({
+        success: false,
+        message: 'User does not exist.'
+      });
+      console.log(`< /removeUserByUsername > ${username} not found.`);
+    }
+  });
+});
+
 exports.API = functions.https.onRequest(app);

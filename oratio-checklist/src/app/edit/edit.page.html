@@ -1,0 +1,152 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button
+      slot="start"
+      class="black-button"
+      fill="clear"
+      routerLink="/home">
+      <ion-icon name="arrow-round-back"></ion-icon>
+    </ion-button>
+    <ion-title>Edit Checklist</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!isLoading && !isError">
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="onClickCancel()" color="danger">
+      <ion-icon name="close"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="onClickAdd()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button
+      (click)="onClickDone()"
+      color="success"
+      [disabled]="!isValidChecklist()">
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-row class="full-height center-content" *ngIf="isEmptyItems()">
+    <ion-text>Il n'y a aucun item dans cette checklist. Appuyez sur le bouton ci-dessous pour ajouter le premier item.</ion-text>
+  </ion-row>
+  <ion-list *ngIf="!isEmptyItems()">
+    <ion-card *ngFor="let item of checklist.items">
+      <ion-grid class="item-grid">
+        <ion-row>
+          <ion-col size="1" class="center-content">
+            <ion-grid class="up-down-grid">
+              <ion-row>
+                <ion-col>
+                  <ion-button
+                    class="black-button"
+                    (click)="onClickItemUp(item.id)"
+                    fill="clear"
+                    [disabled]="isUpDisabled(item.id)">
+                    <ion-icon name="arrow-dropup"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-button
+                    class="black-button"
+                    (click)="onClickItemDown(item.id)"
+                    fill="clear"
+                    [disabled]="isDownDisabled(item.id)">
+                    <ion-icon name="arrow-dropdown"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+          <ion-col size="3" class="center-content">
+            <ion-select
+              interface="popover"
+              class="verb-selector"
+              [(ngModel)]="item.verb">
+              <div *ngFor="let verb of firestore.verbs">
+                <ion-select-option [value]="verb">{{ verb }}</ion-select-option>
+              </div>
+            </ion-select>
+          </ion-col>
+          <ion-col size="7" class="center-content">
+            <ion-input
+              [ngClass]="isObjectValid(item.object) ? 'object-input' : 'object-input-invalid'"
+              [(ngModel)]="item.object"
+              placeHolder="Objet"
+              ></ion-input>
+          </ion-col>
+          <ion-col size="1" class="center-content">
+            <ion-button
+              class="remove-button"
+              fill="clear"
+              (click)="onClickItemRemove(item.id)">
+              <ion-icon name="close-circle"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <!--
+      <ion-grid>
+        <ion-row>
+          <ion-col size="1">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-button
+                    class="black-button"
+                    (click)="onClickItemUp(item.id)"
+                    fill="clear"
+                    [disabled]="isUpDisabled(item.id)">
+                    <ion-icon name="arrow-dropup"></ion-icon>
+                </ion-button>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-button
+                    class="black-button"
+                    (click)="onClickItemDown(item.id)"
+                    fill="clear"
+                    [disabled]="isDownDisabled(item.id)">
+                    <ion-icon name="arrow-dropdown"></ion-icon>
+                </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+          <ion-col size="5">
+            <ion-text class="combo-field">{{ item.verb }}</ion-text>
+          </ion-col>
+          <ion-col size="5">
+            <ion-text class="combo-field">{{ item.object }}</ion-text>
+          </ion-col>
+          <ion-col size="1">
+            <ion-button
+              class="remove-button"
+              (click)="onClickItemRemove(item.id)">
+              <ion-icon name="close-circle"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      -->
+    </ion-card>
+  </ion-list>
+</ion-content>
+
+<ion-content *ngIf="!isLoading && isError">
+  <ion-row class="full-height center-content">
+    <ion-text>Erreur inattendue, veuillez réessayer plus tard.</ion-text>
+  </ion-row>
+</ion-content>
+
+<ion-content *ngIf="isLoading">
+  <ion-row class="full-height center-content">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </ion-row>
+</ion-content>

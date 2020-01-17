@@ -26,4 +26,8 @@ export class CloudFunctionsService {
     return this.http.post(FIREBASE_API_URL + '/updateUser', user);
   }
 
+  public deleteUser(gmail: string): Observable<any> {
+    return this.http.post(FIREBASE_API_URL + '/removeUser', { gmail: gmail });
+  }
+
 }

@@ -8,6 +8,7 @@ import { CloudFunctionsService } from './cloud-functions.service';
 import { UserInfo, UserService } from './user.service';
 import { googleId } from '../../../../apikeys/googleId';
 import { StorageService, KEYS } from './storage.service';
+import { first } from 'rxjs/operators';
 
 export interface NewUserInfo {
   gmail: string,
@@ -38,6 +39,28 @@ export class LoginService {
   ) {
     this.loggedUser = null;
     this.newUser = null;
+  }
+
+  public deleteUserAccount() {
+    const currentUser: UserInfo = this.loggedUser;
+    this.router.navigateByUrl('/loading');
+    this.storageService.removeItem(KEYS.LAST_USER_LOGGED)
+    .then(resolve => {
+      this.loggedUser = null;
+      this.newUser = null;
+      const toRemove: number = currentUser.supervision.length;
+      let removed: number = 0;
+      this.cloudFunctions.removeUser(currentUser.gmail)
+      .pipe(first()).subscribe((response: any) => {
+        for (let item of currentUser.supervision) {
+          this.cloudFunctions.removeUserByUsername(item.username)
+          .pipe(first()).subscribe((response) => {
+            removed++;
+            if (removed === toRemove) { this.router.navigateByUrl('/home'); }
+          });
+        }
+      });
+    });
   }
 
   public isNewUser() { return this.newUser != null; }

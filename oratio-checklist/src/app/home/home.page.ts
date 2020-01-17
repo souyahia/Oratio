@@ -1,26 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage {
 
-  public username: string;
-  public checklist: string;
+  private _usernameInput: string = '';
+  private _checklistInput: string = '';
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router
+  ) {}
 
-  ngOnInit() {
-    this.username = 'anova';
-    this.checklist = 'work';
+  public onClickExecute(): void {
+    this.router.navigateByUrl(`/execute/${this.usernameInput}/${this.checklistInput}`);
   }
 
-  onClick() {
-    this.router.navigateByUrl(`/execution/${this.username}/${this.checklist}`);
+  public onClickEdit(): void {
+    this.router.navigateByUrl(`/edit/${this.usernameInput}/${this.checklistInput}`);
   }
+
+  public get isFormValid(): boolean {
+    return (this.usernameInput.length > 0 && this.checklistInput.length > 0);
+  }
+
+  public get usernameInput(): string { return this._usernameInput; }
+  public get checklistInput(): string { return this._checklistInput; }
+
+  public set usernameInput(value: string) { this._usernameInput = value; }
+  public set checklistInput(value: string) { this._checklistInput = value; }
 
 }
