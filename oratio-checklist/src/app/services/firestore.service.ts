@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { Checklist } from '../services/checklist-operator.service';
+import { UserInfo } from '../../../../oratio/src/app/services/user.service';
 
 interface VerbDocument { verbs: string[] }
 
@@ -50,6 +51,11 @@ export class FirestoreService {
   public setChecklist(checklist: Checklist): Promise<void> {
     return this.afs.collection<Checklist>('Checklists')
       .doc<Checklist>(checklist.id).set(checklist);
+  }
+
+  public queryUsers(username: string): Observable<UserInfo[]> {
+    return this.afs.collection<UserInfo>('Users',
+      ref => ref.where('username', '==', username)).valueChanges();
   }
 
   public get verbs(): string[] { return this._verbs; }

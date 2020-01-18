@@ -20,6 +20,10 @@ export class HomePage {
     this.router.navigateByUrl(`/execute/${this.usernameInput}/${this.checklistInput}`);
   }
 
+  public onClickExecuteChat(): void {
+    this.router.navigateByUrl(`/execute-chat/${this.usernameInput}/${this.checklistInput}`);
+  }
+
   public onClickEdit(): void {
     this.router.navigateByUrl(`/edit/${this.usernameInput}/${this.checklistInput}`);
   }
