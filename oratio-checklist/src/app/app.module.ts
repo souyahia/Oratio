@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
+import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +28,8 @@ import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/fi
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: FirestoreSettingsToken, useValue: {} }
+    { provide: FirestoreSettingsToken, useValue: {} },
+    TextToSpeech
   ],
   bootstrap: [AppComponent]
 })

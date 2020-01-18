@@ -24,6 +24,12 @@
     </ion-button>
     <ion-button
       expand="block"
+      (click)="onClickExecuteChat()"
+      [disabled]="!isFormValid">
+      Execute Checklist With Chat
+    </ion-button>
+    <ion-button
+      expand="block"
       (click)="onClickEdit()"
       [disabled]="!isFormValid">
       Edit Checklist

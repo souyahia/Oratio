@@ -12,6 +12,10 @@ const routes: Routes = [
     path: 'edit/:user/:name',
     loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
   },
+  {
+    path: 'execute-chat/:user/:name',
+    loadChildren: () => import('./execute-chat/execute-chat.module').then( m => m.ExecuteChatPageModule)
+  },
 ];
 
 @NgModule({

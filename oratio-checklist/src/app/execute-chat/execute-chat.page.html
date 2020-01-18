@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button
+      slot="start"
+      class="black-button"
+      fill="clear"
+      routerLink="/home">
+      <ion-icon name="arrow-round-back"></ion-icon>
+    </ion-button>
+    <ion-title>Execute Checklist With Chat</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <ion-list>
+      <ion-item-divider class="message-divider"></ion-item-divider>
+      <div class="message" *ngFor="let message of service.messageList">
+          <div *ngIf="message.isFromUser" class="user-message ion-text-right">
+            <ion-card>
+              <ion-card-content color="primary">
+                <span class="msg-name">Moi   </span>
+                <span class="msg-date">{{ message.displayDate }}</span>
+                <p class="ion-text-wrap" [innerHTML]="message.htmlContent"></p>
+              </ion-card-content>
+            </ion-card>
+          </div>
+          <div *ngIf="!message.isFromUser" class="assistant-message ion-text-left">
+            <ion-card>
+              <ion-card-content>
+                <span class="msg-name">Assistant   </span>
+                <span class="msg-date">{{ message.displayDate }}</span>
+                <p class="ion-text-wrap" [innerHTML]="message.htmlContent"></p>
+              </ion-card-content>
+            </ion-card>
+          </div>
+          <ion-item-divider class="message-divider"></ion-item-divider>
+      </div>
+    </ion-list>
+  </div>
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+</ion-content>
+
+<ion-footer no-border>
+  <ion-toolbar>
+    <ion-item>
+      <ion-input [(ngModel)]="userInput" placeholder='Entrez votre texte'></ion-input>
+      <ion-button item-end disabled="{{!userInput}}" (click)="onClickSend()" fill="clear">
+        <ion-icon slot="icon-only" name="send"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

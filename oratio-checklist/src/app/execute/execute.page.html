@@ -11,11 +11,37 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="ion-padding center-content">
-    <ion-text>
-      Username : {{ username }}<br>
-      Checklist: {{ checklist }}
-    </ion-text>
-  </div>
+<ion-content *ngIf="!isLoading && !isError">
+  <ion-row class="full-height center-content" *ngIf="isEmptyItems()">
+    <ion-text>Il n'y a aucun item dans cette checklist.</ion-text>
+  </ion-row>
+  <ion-list *ngIf="!isEmptyItems()">
+    <ion-card *ngFor="let item of checklist.items">
+      <ion-grid [ngClass]="item.done ? 'item-done' : 'item-not-done'">
+        <ion-row class="center-content">
+          <ion-col size="4">
+            <ion-checkbox
+              (ionChange)="onClickCheckbox()"
+              [(ngModel)]="item.done"></ion-checkbox>
+          </ion-col>
+          <ion-col size="8">
+            <ion-text class="text-verb">{{ item.verb }}</ion-text>
+            <ion-text class="text-object"> {{ item.object }}</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </ion-list>
+</ion-content>
+
+<ion-content *ngIf="!isLoading && isError">
+  <ion-row class="full-height center-content">
+    <ion-text>Erreur inattendue, veuillez réessayer plus tard.</ion-text>
+  </ion-row>
+</ion-content>
+
+<ion-content *ngIf="isLoading">
+  <ion-row class="full-height center-content">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </ion-row>
 </ion-content>

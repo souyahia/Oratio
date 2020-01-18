@@ -1,0 +1,26 @@
+.full-height {
+  height: 100%;
+}
+ion-checkbox {
+  --size: 96px;
+  --background-checked: var(--ion-color-success);
+  --border-color-checked: var(--ion-color-success);
+}
+.text-verb {
+  color: var(--ion-color-dark);
+  font-size: x-large;
+}
+.text-object {
+  color: var(--ion-color-dark);
+  font-size: x-large;
+  font-weight: bold;
+}
+.item-done {
+  border: solid var(--ion-color-success) 1px;
+}
+.item-done ion-text {
+  color: var(--ion-color-success);
+}
+.item-not-done {
+  border: solid var(--ion-color-dark) 1px;
+}
